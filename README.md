@@ -1,28 +1,47 @@
-# Bash Colorizer
+# BASH COLORIZER
 
-Let's make your bash terminal full of colors!
+![Bash Colorizer](arts/bash_colorizer.png)
 
 ## 1. Features
 
-`Bash Colorizer` outputs strings in specified colors.
+`Bash Colorizer` outputs strings in specified colors and attributes.
+
+Let's make your `bash` terminal full of colors!
 
 ## 2. Contents
 
-## 3. Requirement
+- [1. Features](#1-features)
+- 2\. Contents
+- [3. Verified Terminals](#3-verified-terminals)
+- [4. Requirements](#4-requirements)
+- [5. Installation](#5-installation)
+- [6. Usage](#6-usage)
+    - [6.1. Basic Usage](#61-basic-usage)
+    - [6.2. Available Attributes](#62-available-attributes)
+    - [6.3. Available Colors](#63-available-colors)
+- [7. Examples](#7-examples)
+- [8. LICENSE](#8-license)
+
+## 3. Verified Terminals
+
+- VSCode Terminal (VSCode 1.99.1 / Windows 11)
+- Windows Terminal 1.22.10731.0
+
+## 4. Requirements
 
 - PHP 8.1 or later installed
 - Composer v2 installed
 - Bash v5 installed
 
-## 4. Installation
+## 5. Installation
 
 ```bash
 composer require macocci7/bash-colorizer
 ```
 
-## 5. Usage
+## 6. Usage
 
-### 5-1. Basic Usage
+### 6.1. Basic Usage
 
 - Import composer's `autoload.php` at first.
 
@@ -34,18 +53,22 @@ composer require macocci7/bash-colorizer
 
 - Displaying messages:
 
+    static calls:
     ```php
     use Macocci7\BashColorizer\Colorizer;
 
-    // static calls
     Colorizer::echo("Hi, there!");
     Colorizer::echo(" How's it going with you?", PHP_EOL);
+    ```
 
-    // method chains
+    method chains:
+    ```php
     Colorizer::echo("Hi, there!");
         ->echo(" How's it going with you?", PHP_EOL);
+    ```
 
-    // creating an instance
+    creating an instance:
+    ```php
     $colorizer = new Colorizer;
     $colorizer->("Hi, there!")
         ->echo(" How's it going with you?", PHP_EOL);
@@ -90,6 +113,8 @@ composer require macocci7/bash-colorizer
         ->echo("Hi, there!", PHP_EOL);
     ```
 
+    See more: [Available Attributes](#62-available-attributes)
+
 - Setting foreground color:
 
     ```php
@@ -97,12 +122,16 @@ composer require macocci7/bash-colorizer
         ->echo("Hi, there!", PHP_EOL);
     ```
 
+    See more: [Available Colors](#63-available-colors)
+
 - Setting background color:
 
     ```php
     Colorizer::background("red")
         ->echo("Hi, there!", PHP_EOL);
     ```
+
+    See more: [Available Colors](#63-available-colors)
 
 - Equivalent to `config()`:
 
@@ -115,12 +144,14 @@ composer require macocci7/bash-colorizer
 
 - Returning colorized string:
 
+    As an argument of echo:
     ```php
-    // as an argument of echo
     echo Colorizer::config($config)
         ->encode("Hi, there!") . PHP_EOL;
-
-    // this is also effective
+    ```
+ 
+    This is also effective:
+    ```php
     echo sprintf(
         "%s: %s%s",
         $name,
@@ -130,7 +161,7 @@ composer require macocci7/bash-colorizer
     );
     ```
 
-### 5-2. Available attributes:
+### 6.2. Available Attributes
 
 - `reset`
 - `bold`
@@ -156,7 +187,7 @@ e.g.) on VSCode Terminal
 
 <img src="arts/available_attributes.png" width="180" height="360" />
 
-### 5-3. Available colors:
+### 6.3. Available Colors
 
 `foreground`/`background`:
 
@@ -177,7 +208,7 @@ e.g.) on VSCode Terminal
 |---|---|
 |<img src="arts/available_foreground_colors.png" with="240" height="216" />|<img src="arts/available_background_colors.png" with="240" height="216" />|
 
-## 6. EXamples
+## 7. Examples
 
 Example codes are in [playground](playground/) directory.
 
@@ -186,7 +217,7 @@ Example codes are in [playground](playground/) directory.
 - [foreground.php](playground/foreground.php)
 - [background.php](playground/background.php)
 
-## 7. LICENSE
+## 8. LICENSE
 
 [MIT](LICENSE)
 
