@@ -1,6 +1,6 @@
 {
     "name": "macocci7/bash-colorizer",
-    "description": "Let's make your bash terminal in colors!",
+    "description": "Let's make your bash terminal full of colors!",
     "type": "library",
     "license": "MIT",
     "autoload": {
