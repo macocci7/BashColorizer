@@ -2,8 +2,6 @@
 
 namespace Macocci7\BashColorizer;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use Macocci7\BashColorizer\Enums\Attribute;
 use Macocci7\BashColorizer\Enums\Foreground;
 use Macocci7\BashColorizer\Enums\Background;
