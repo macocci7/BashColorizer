@@ -4,46 +4,31 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Macocci7\BashColorizer\Colorizer;
 
-$config = [
-    'attributes' => ['italic', 'bold'],
-    'foreground' => 'black',
-    'background' => 'green',
-];
-$string = " Hi, there! ";
+$greeting = "Hi, guys! How's it goin' with you?";
+$greeting = "Let's make your bash terminal full of colors!";
 
-// Static calls
-Colorizer::echo($string);
-
-Colorizer::config($config);
-Colorizer::echo($string);
-
-Colorizer::foreground('yellow');
-Colorizer::background('red');
-Colorizer::echo($string, PHP_EOL);
-
-Colorizer::background('blue');
-Colorizer::echo($string, PHP_EOL);
-
-// method chains
-$attributes = ['strike', 'double-underline'];
-Colorizer::attributes($attributes)
-    ->foreground("green")
-    ->background("black")
-    ->echo('Attributes changed!', PHP_EOL);
-
-// creating an instance
-$colorizer = new Colorizer;
-$colorizer->echo("No config.", "<br />\n\n");
-
-// this is also available
-$config = [
-    'attributes' => ['reverse'],
-    'foreground' => 'magenta',
-    'background' => 'yellow',
-];
-$colorizer = new Colorizer($config);
-
-$colorizer->config($config)->echo($string,  "<br />\n\n");
-
-$colorizer = Colorizer::attributes($attributes);
-$colorizer->echo("Attributes changed.", PHP_EOL);
+Colorizer::attributes(["bold"])
+    ->foreground("red")->echo("        B ")
+    ->foreground("yellow")->echo("A ")
+    ->foreground("white")->echo("S ")
+    ->foreground("green")->echo("H   ")
+    ->foreground("cyan")->echo("C ")
+    ->foreground("blue")->echo("O ")
+    ->foreground("magenta")->echo("L ")
+    ->foreground("black")->echo("O ")
+    ->foreground("red")->echo("R ")
+    ->foreground("yellow")->echo("I ")
+    ->foreground("white")->echo("Z ")
+    ->foreground("green")->echo("E ")
+    ->foreground("cyan")->echo("R", "\n\n")
+    ;
+Colorizer::attributes(["reset"])
+    ->foreground("white")->background("black")->echo($greeting, PHP_EOL)
+    ->foreground("green")->background("red")->echo($greeting, PHP_EOL)
+    ->foreground("green")->background("yellow")->echo($greeting, PHP_EOL)
+    ->foreground("green")->background("white")->echo($greeting, PHP_EOL)
+    ->foreground("green")->background("green")->echo($greeting, PHP_EOL)
+    ->foreground("green")->background("cyan")->echo($greeting, PHP_EOL)
+    ->foreground("green")->background("blue")->echo($greeting, PHP_EOL)
+    ->foreground("green")->background("magenta")->echo($greeting, PHP_EOL)
+    ;
