@@ -121,9 +121,9 @@ class Colorizer
         ));
     }
 
-    public static function echo(string $string, string $eol = ''): void
+    public static function encode(string $string, string $eol = ''): string
     {
-        echo sprintf(
+        return sprintf(
             '%s[%sm%s%s[m%s',
             static::ESC,
             static::codes(static::$config),
@@ -131,5 +131,11 @@ class Colorizer
             static::ESC,
             $eol,
         );
+    }
+
+    public static function echo(string $string, string $eol = ''): self
+    {
+        echo static::encode($string, $eol);
+        return new self(static::$config);
     }
 }

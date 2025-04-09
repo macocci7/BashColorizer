@@ -3,10 +3,20 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Macocci7\BashColorizer\Enums\Foreground;
+use Macocci7\BashColorizer\Colorizer;
 
-//var_dump(Foreground::codes());
-echo "[" . PHP_EOL;
-foreach (Foreground::codes() as $key => $code) {
-    echo "    '{$key}' => {$code}," . PHP_EOL;
+Colorizer::background('blue')
+    ->echo(' Available Foreground Colors ', PHP_EOL);
+
+Colorizer::attributes(['reset'])
+    ->background('default');
+
+foreach (Foreground::values() as $i => $f) {
+    echo sprintf(
+        "%2d: %s",
+        $i + 1,
+        Colorizer::foreground($f)
+            ->background($i === 0 ? "white" : "black")
+            ->encode($f, PHP_EOL)
+    );
 }
-echo "];" . PHP_EOL;
