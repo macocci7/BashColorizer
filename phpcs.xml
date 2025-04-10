@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="PhotoGps">
+<ruleset name="BashColorizer">
     <description>The coding standard for Bash Colorizer.</description>
 
     <config name="php_version" value="81000"/>

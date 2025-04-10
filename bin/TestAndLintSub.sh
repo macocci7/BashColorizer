@@ -9,7 +9,7 @@ echo "[PHP $1][php -v]"
 php -v
 echo "-----------------------------------------------------------"
 echo "[PHP $1][parallel-lint]"
-./vendor/bin/parallel-lint src tests examples
+./vendor/bin/parallel-lint src tests playground
 echo "-----------------------------------------------------------"
 echo "[PHP $1][phpcs]"
 ./vendor/bin/phpcs --ignore=vendor \
