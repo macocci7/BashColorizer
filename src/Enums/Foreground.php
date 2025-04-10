@@ -20,7 +20,7 @@ enum Foreground: string
     case Extended = 'extended';
     case Default = 'default';
 
-    public function code(): int
+    public function code(): int|null
     {
         return match ($this) {
             static::Black => 30,

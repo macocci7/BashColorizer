@@ -1,0 +1,9 @@
+parameters:
+	level: 6
+	paths:
+		- ./src
+	treatPhpDocTypesAsCertain: false
+	ignoreErrors:
+		-
+			identifier: match.alwaysTrue
+			path: src/Enums/*

@@ -28,7 +28,6 @@ enum Attribute: string
     case NoConceal = "no-conceal";
     case NoStrike = "no-strike";
 
-    # attributes
     public function code(): int
     {
         return match ($this) {

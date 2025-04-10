@@ -8,9 +8,10 @@ use Macocci7\BashColorizer\Colorizer;
 
 $colors = [
     ...array_filter(
-        Foreground::values(), function ($v, $k) {
+        Foreground::values(),
+        function ($v, $k) {
             return ! in_array($k, [0, 8, 9]);
-        }, 
+        },
         ARRAY_FILTER_USE_BOTH
     )
 ];

@@ -10,13 +10,23 @@ class Colorizer
 {
     protected const ESC = "\e";
 
+    /**
+     * @var array<string, mixed>    $config
+     */
     protected static array $config = [];
 
+    /**
+     * @param   array<string, mixed>    $config
+     */
     public function __construct(array $config = [])
     {
         static::$config = $config;
     }
 
+    /**
+     * @param   string[]|null   $attributes = []
+     * @return  string[]|null|self
+     */
     public static function attributes(array|null $attributes = []): array|null|self
     {
         if (is_null($attributes)) {
@@ -46,6 +56,10 @@ class Colorizer
         return new self(static::$config);
     }
 
+    /**
+     * @param   array<string, mixed>    $config
+     * @return  array<string, mixed>|self
+     */
     public static function config(array|null $config = null): array|self
     {
         if (is_null($config)) {
@@ -55,7 +69,11 @@ class Colorizer
         return new self($config);
     }
 
-    protected static function getAttributes(array $config = []): array
+    /**
+     * @param   array<string, mixed>    $config = []
+     * @return  int[]
+     */
+    protected static function getAttributeCodes(array $config = []): array
     {
         if (!isset($config['attributes'])) {
             return [];
@@ -74,6 +92,10 @@ class Colorizer
         return $codes;
     }
 
+    /**
+     * @param   array<string, mixed>    $config = []
+     * @return  int[]
+     */
     protected static function getForegroundCode(array $config = []): array
     {
         if (!isset($config['foreground'])) {
@@ -92,6 +114,10 @@ class Colorizer
         return strlen($code ?? '') ? [$code] : [];
     }
 
+    /**
+     * @param   array<string, mixed>    $config = []
+     * @return  int[]
+     */
     protected static function getBackgroundCode(array $config = []): array
     {
         if (!isset($config['background'])) {
@@ -110,10 +136,13 @@ class Colorizer
         return strlen($code ?? '') ? [$code] : [];
     }
 
+    /**
+     * @param   array<string, mixed>    $config = []
+     */
     public static function codes(array $config = []): string
     {
         return implode(';', array_merge(
-            self::getAttributes($config),
+            self::getAttributeCodes($config),
             self::getForegroundCode($config),
             self::getBackgroundCode($config),
         ));

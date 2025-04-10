@@ -70,7 +70,7 @@ composer require macocci7/bash-colorizer
     creating an instance:
     ```php
     $colorizer = new Colorizer;
-    $colorizer->("Hi, there!")
+    $colorizer->echo("Hi, there!")
         ->echo(" How's it going with you?", PHP_EOL);
     ```
 
