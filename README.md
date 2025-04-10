@@ -123,13 +123,13 @@ composer require macocci7/bash-colorizer
         ->echo("Hi, there!", PHP_EOL);
     ```
 
-    by number [0 - 255]:
+    by number [0 - 255] (256 colors):
     ```php
     Colorizer::foreground(2)
         ->echo("Hi, there!", PHP_EOL);
     ```
 
-    by (RGB) array ( r: [0 - 255], g: [0 - 255], b: [0 -255] ):
+    by (RGB) array (24bit 16777216 colors):
     ```php
     Colorizer::foreground([0, 255, 0])
         ->echo("Hi, there!", PHP_EOL);
@@ -145,13 +145,13 @@ composer require macocci7/bash-colorizer
         ->echo("Hi, there!", PHP_EOL);
     ```
 
-    by number [0 - 255]:
+    by number [0 - 255] (256 colors):
     ```php
     Colorizer::background(1)
         ->echo("Hi, there!", PHP_EOL);
     ```
 
-    by (RGB) array ( r: [0 - 255], g: [0 - 255], b: [0 -255] ):
+    by (RGB) array (24bit 16777216 colors):
     ```php
     Colorizer::background([255, 0, 0])
         ->echo("Hi, there!", PHP_EOL);
@@ -215,24 +215,44 @@ e.g.) on VSCode Terminal
 
 ### 6.3. Available Colors
 
-`foreground`/`background` color names:
+- `foreground`/`background` color names:
 
-- `black`
-- `red`
-- `green`
-- `yellow`
-- `blue`
-- `magenta`
-- `cyan`
-- `white`
-- ~~`extended`~~ (no effect, only name)
-- `default`
+    - `black`
+    - `red`
+    - `green`
+    - `yellow`
+    - `blue`
+    - `magenta`
+    - `cyan`
+    - `white`
+    - ~~`extended`~~ (no effect, only name)
+    - `default`
 
 
-e.g.) on VSCode Terminal
-|Foregound Colors|Background Colors|
-|---|---|
-|<img src="arts/available_foreground_colors.png" with="240" height="216" />|<img src="arts/available_background_colors.png" with="240" height="216" />|
+    e.g.) on VSCode Terminal
+    |Foregound Colors|Background Colors|
+    |---|---|
+    |<img src="arts/available_foreground_colors.png" with="240" height="216" />|<img src="arts/available_background_colors.png" with="240" height="216" />|
+
+- 256 colors [ 0 - 255 ]:
+
+    e.g.) foreground colors on VSCode Terminal:
+
+    <img src="arts/foreground_256colors.png" width="500" height="254" />
+
+    e.g.) background colors on VSCode Terminal:
+
+    <img src="arts/background_256colors.png" width="500" height="256" />
+
+- 24bit (16777216) colors:
+
+    e.g.) foreground colors on VSCode Terminal:
+
+    <img src="arts/foreground_24bitcolors.png" width="500" height="412" />
+
+    e.g.) background colors on VSCode Terminal:
+
+    <img src="arts/background_24bitcolors.png" width="500" height="406"/>
 
 ## 7. Examples
 
