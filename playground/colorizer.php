@@ -4,7 +4,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Macocci7\BashColorizer\Colorizer;
 
-$greeting = "Hi, guys! How's it goin' with you?";
 $greeting = "Let's make your bash terminal full of colors!";
 
 Colorizer::attributes(["bold"])

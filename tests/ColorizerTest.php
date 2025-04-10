@@ -1,4 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+namespace Macocci7\BashColorizer\Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -226,7 +230,7 @@ final class ColorizerTest extends TestCase
                 'expected' => '1;3;31;43',
             ],
         ];
-}
+    }
 
     #[DataProvider('provide_codes_can_return_codes_correctly')]
     public function test_codes_can_return_codes_correctly(array $config, string $expected): void
