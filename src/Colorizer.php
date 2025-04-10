@@ -38,7 +38,11 @@ class Colorizer
         return new self($config);
     }
 
-    public static function foreground(string|Foreground|null $foreground = null): string|null|self
+    /**
+     * @param   string|Foreground|int|int[]|null $foreground = null
+     * @return  string|int|int[]|null|self
+     */
+    public static function foreground(string|Foreground|int|array|null $foreground = null): string|int|array|null|self
     {
         if (is_null($foreground)) {
             return self::$config['foreground'] ?? null;
@@ -47,7 +51,11 @@ class Colorizer
         return new self(static::$config);
     }
 
-    public static function background(string|Background|null $background = null): string|null|self
+    /**
+     * @param   string|Background|int|int[]|null $background = null
+     * @return  string|int|int[]|null|self
+     */
+    public static function background(string|Background|int|array|null $background = null): string|int|array|null|self
     {
         if (is_null($background)) {
             return self::$config['background'] ?? null;
@@ -102,13 +110,17 @@ class Colorizer
             return [];
         }
 
-        $code = null;
-        $attribute = $config['foreground'];
+        $foreground = $config['foreground'];
 
-        if (is_string($attribute)) {
-            $code = Foreground::tryFrom($attribute)?->code();
-        } elseif ($attribute instanceof Foreground) {
-            $code = $attribute->code();
+        if (is_int($foreground) || is_array($foreground)) {
+            return static::extendedCodes(Foreground::Extended, $foreground);
+        }
+
+        $code = null;
+        if (is_string($foreground)) {
+            $code = Foreground::tryFrom($foreground)?->code();
+        } elseif ($foreground instanceof Foreground) {
+            $code = $foreground->code();
         }
 
         return strlen($code ?? '') ? [$code] : [];
@@ -124,16 +136,50 @@ class Colorizer
             return [];
         }
 
-        $code = null;
-        $attribute = $config['background'];
+        $background = $config['background'];
 
-        if (is_string($attribute)) {
-            $code = Background::tryFrom($attribute)?->code();
-        } elseif ($attribute instanceof Background) {
-            $code = $attribute->code();
+        if (is_int($background) || is_array($background)) {
+            return static::extendedCodes(Background::Extended, $background);
+        }
+
+        $code = null;
+
+        if (is_string($background)) {
+            $code = Background::tryFrom($background)?->code();
+        } elseif ($background instanceof Background) {
+            $code = $background->code();
         }
 
         return strlen($code ?? '') ? [$code] : [];
+    }
+
+    /**
+     * @param   Foreground|Background   $enum
+     * @param   int|int[]               $color
+     * @return  int[]
+     */
+    protected static function extendedCodes(
+        Foreground|Background $enum,
+        int|array $color
+    ): array {
+        // 256 colors
+        if (is_int($color)) {
+            return [
+                $enum::Extended->code(),
+                5,
+                $color < 0 ? 0 : ($color > 255 ? 255 : $color),
+            ];
+        }
+
+        // 24bit (16777216) colors
+        return [
+            $enum::Extended->code(),
+            2,
+            ...array_map(
+                fn ($v) => $v < 0 ? 0 : ($v > 255 ? 255 : $v),
+                $color
+            ),
+        ];
     }
 
     /**

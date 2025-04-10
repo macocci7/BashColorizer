@@ -117,8 +117,21 @@ composer require macocci7/bash-colorizer
 
 - Setting foreground color:
 
+    by name:
     ```php
     Colorizer::foreground('green')
+        ->echo("Hi, there!", PHP_EOL);
+    ```
+
+    by number [0 - 255]:
+    ```php
+    Colorizer::foreground(2)
+        ->echo("Hi, there!", PHP_EOL);
+    ```
+
+    by (RGB) array ( r: [0 - 255], g: [0 - 255], b: [0 -255] ):
+    ```php
+    Colorizer::foreground([0, 255, 0])
         ->echo("Hi, there!", PHP_EOL);
     ```
 
@@ -126,8 +139,21 @@ composer require macocci7/bash-colorizer
 
 - Setting background color:
 
+    by name:
     ```php
     Colorizer::background("red")
+        ->echo("Hi, there!", PHP_EOL);
+    ```
+
+    by number [0 - 255]:
+    ```php
+    Colorizer::background(1)
+        ->echo("Hi, there!", PHP_EOL);
+    ```
+
+    by (RGB) array ( r: [0 - 255], g: [0 - 255], b: [0 -255] ):
+    ```php
+    Colorizer::background([255, 0, 0])
         ->echo("Hi, there!", PHP_EOL);
     ```
 
@@ -189,7 +215,7 @@ e.g.) on VSCode Terminal
 
 ### 6.3. Available Colors
 
-`foreground`/`background`:
+`foreground`/`background` color names:
 
 - `black`
 - `red`
@@ -199,7 +225,7 @@ e.g.) on VSCode Terminal
 - `magenta`
 - `cyan`
 - `white`
-- `extended`
+- ~~`extended`~~ (no effect, only name)
 - `default`
 
 
@@ -216,6 +242,10 @@ Example codes are in [playground](playground/) directory.
 - [attributes.php](playground/attributes.php)
 - [foreground.php](playground/foreground.php)
 - [background.php](playground/background.php)
+- [foreground_256colors.php](playground/foreground_256colors.php)
+- [foreground_24bitcolors.php](playground/foreground_24bitcolors.php)
+- [background_256colors.php](playground/background_256colors.php)
+- [background_24bitcolors.php](playground/background_24bitcolors.php)
 
 ## 8. LICENSE
 
