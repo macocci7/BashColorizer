@@ -90,7 +90,7 @@ jobs:
         run: composer require phpunit/phpunit:^10.5 sebastian/version:* --with-all-dependencies
 
       - name: PHP Lint
-        run: ./vendor/bin/parallel-lint src tests examples
+        run: ./vendor/bin/parallel-lint src tests playground
 
       - name: Unit tests
         run: |
