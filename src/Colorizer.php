@@ -5,6 +5,7 @@ namespace Macocci7\BashColorizer;
 use Macocci7\BashColorizer\Enums\Attribute;
 use Macocci7\BashColorizer\Enums\Foreground;
 use Macocci7\BashColorizer\Enums\Background;
+use Macocci7\BashColorizer\Filters\Filter;
 
 class Colorizer
 {
@@ -167,7 +168,7 @@ class Colorizer
             return [
                 $enum::Extended->code(),
                 5,
-                $color < 0 ? 0 : ($color > 255 ? 255 : $color),
+                Filter::number($color),
             ];
         }
 
@@ -175,10 +176,7 @@ class Colorizer
         return [
             $enum::Extended->code(),
             2,
-            ...array_map(
-                fn ($v) => $v < 0 ? 0 : ($v > 255 ? 255 : $v),
-                $color
-            ),
+            ...Filter::rgb($color),
         ];
     }
 

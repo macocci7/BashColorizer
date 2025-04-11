@@ -188,26 +188,36 @@ composer require macocci7/bash-colorizer
     ```
 
 ### 6.2. Available Attributes
+|Attribute|VSCode Terminal|Windows Terminal|
+|:---|:---:|:---:|
+|`reset`|〇|〇|
+|`bold`|〇|❌|
+|`faint`|〇|〇|
+|`italic`|〇|〇|
+|`underline`|〇|〇|
+|`blink`|❌|▲<br><a href="#note1">*1</a>|
+|`fast-blink`|❌|▲<br><a href="#note1">*1</a>, <a href="#note2">*2</a>|
+|`reverse`|〇|〇|
+|`conceal`|〇|〇|
+|`strike`|〇|〇|
+|`gothic`|❌|❌|
+|`double-underl ine`|〇|〇|
+|`normal`|〇|〇|
+|`no-italic`|〇|〇|
+|`no-underline`|〇|〇|
+|`no-blink`|ー<br><a href="#note3">*3</a>|〇<br><a href="#note4">*4</a>|
+|`no-reverse`|〇|〇|
+|`no-conceal`|〇|〇|
+|`no-strike`|〇|〇|
 
-- `reset`
-- `bold`
-- `faint`
-- `italic`
-- `underline`
-- `blink`
-- `fast-blink`
-- `reverse`
-- `conceal`
-- `strike`
-- `gothic`
-- `double-underline`
-- `normal`
-- `no-italic`
-- `no-underline`
-- `no-blink`
-- `no-reverse`
-- `no-conceal`
-- `no-strike`
+> <a id="note1"></a>
+*1: No effect with `faint`<br>
+> <a id="note2"></a>
+*2: Not `fast` (blinks at the same rate as `blink`)<br>
+> <a id="note3"></a>
+*3: Unknown because `blink` has no effect<br>
+> <a id="note4"></a>
+*4: Also effective against `fast-blink`<br>
 
 e.g.) on VSCode Terminal
 
