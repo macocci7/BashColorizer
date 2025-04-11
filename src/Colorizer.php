@@ -25,10 +25,10 @@ class Colorizer
     }
 
     /**
-     * @param   string[]|null   $attributes = []
+     * @param   string[]|Attribute[]|null   $attributes = []
      * @return  string[]|null|self
      */
-    public static function attributes(array|null $attributes = []): array|null|self
+    public static function attributes(array|null $attributes = null): array|null|self
     {
         if (is_null($attributes)) {
             return self::$config['attributes'] ?? null;
@@ -41,10 +41,11 @@ class Colorizer
 
     /**
      * @param   string|Foreground|int|int[]|null $foreground = null
-     * @return  string|int|int[]|null|self
+     * @return  string|Foreground|int|int[]|null|self
      */
-    public static function foreground(string|Foreground|int|array|null $foreground = null): string|int|array|null|self
-    {
+    public static function foreground(
+        string|Foreground|int|array|null $foreground = null
+    ): string|Foreground|int|array|null|self {
         if (is_null($foreground)) {
             return self::$config['foreground'] ?? null;
         }
@@ -54,10 +55,11 @@ class Colorizer
 
     /**
      * @param   string|Background|int|int[]|null $background = null
-     * @return  string|int|int[]|null|self
+     * @return  string|Background|int|int[]|null|self
      */
-    public static function background(string|Background|int|array|null $background = null): string|int|array|null|self
-    {
+    public static function background(
+        string|Background|int|array|null $background = null
+    ): string|Background|int|array|null|self {
         if (is_null($background)) {
             return self::$config['background'] ?? null;
         }
@@ -194,10 +196,11 @@ class Colorizer
 
     public static function encode(string $string, string $eol = ''): string
     {
-        return sprintf(
+        $codes = static::codes(static::$config);
+        return empty($codes) ? $string : sprintf(
             '%s[%sm%s%s[m%s',
             static::ESC,
-            static::codes(static::$config),
+            $codes,
             $string,
             static::ESC,
             $eol,
