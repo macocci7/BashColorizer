@@ -187,6 +187,23 @@ composer require macocci7/bash-colorizer
     );
     ```
 
+- Returning human readable encoded string:
+
+    ```php
+    echo Colorizer::attributes(["bold"])
+        ->background([255, 255, 0])
+        ->foreground([0, 128, 255])
+        ->readable('Hi, There!', PHP_EOL);
+    ```
+    This code outputs the following string:
+    ```bash
+    \033[1;38;2;0;128;255;48;2;255;255;0mHi, there!\033[m
+    ```
+    Running bash command `echo` with `-e` option on this string takes colorizing effect:
+    ```bash
+    bash-$ echo -e '\033[1;38;2;0;128;255;48;2;255;255;0mHi, there!\033[m'
+    ```
+
 ### 6.2. Available Attributes
 |Attribute|VSCode Terminal|Windows Terminal|
 |:---|:---:|:---:|
@@ -276,6 +293,7 @@ Example codes are in [playground](playground/) directory.
 - [foreground_24bitcolors.php](playground/foreground_24bitcolors.php)
 - [background_256colors.php](playground/background_256colors.php)
 - [background_24bitcolors.php](playground/background_24bitcolors.php)
+- [readable.php](playground/readable.php)
 
 ## 8. LICENSE
 

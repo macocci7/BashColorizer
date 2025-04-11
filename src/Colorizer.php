@@ -204,6 +204,15 @@ class Colorizer
         );
     }
 
+    public static function readable(string $string, string $eol = ''): string
+    {
+        return str_replace(
+            self::ESC,
+            "\\033",
+            static::encode($string, $eol)
+        );
+    }
+
     public static function echo(string $string, string $eol = ''): self
     {
         echo static::encode($string, $eol);
