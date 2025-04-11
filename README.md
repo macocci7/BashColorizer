@@ -218,7 +218,7 @@ composer require macocci7/bash-colorizer
 |`conceal`|〇|〇|
 |`strike`|〇|〇|
 |`gothic`|❌|❌|
-|`double-underl ine`|〇|〇|
+|`double-underline`|〇|〇|
 |`normal`|〇|〇|
 |`no-italic`|〇|〇|
 |`no-underline`|〇|〇|
