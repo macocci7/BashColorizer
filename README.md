@@ -123,6 +123,12 @@ composer require macocci7/bash-colorizer
         ->echo("Hi, there!", PHP_EOL);
     ```
 
+    by hex code:
+    ```php
+    Colorizer::foreground('#ffcc00')  // or #fc0
+        ->echo("Hi, there!", PHP_EOL);
+    ```
+
     by number [0 - 255] (256 colors):
     ```php
     Colorizer::foreground(2)
@@ -142,6 +148,12 @@ composer require macocci7/bash-colorizer
     by name:
     ```php
     Colorizer::background("red")
+        ->echo("Hi, there!", PHP_EOL);
+    ```
+
+    by hex code:
+    ```php
+    Colorizer::background("#ffcc00")  // or #fc0
         ->echo("Hi, there!", PHP_EOL);
     ```
 
@@ -167,6 +179,28 @@ composer require macocci7/bash-colorizer
         ->background("blue")
         ->echo("Hi, there!", PHP_EOL);
     ```
+
+- Setting underline color:
+
+    by hex code:
+    ```php
+    Colorizer::underline("#ffcc00")  // or #fc0
+        ->echo("Hi, there!", PHP_EOL);
+    ```
+
+    by number [0 - 255] (256 colors):
+    ```php
+    Colorizer::underline(1)
+        ->echo("Hi, there!", PHP_EOL);
+    ```
+
+    by (RGB) array (24bit 16777216 colors):
+    ```php
+    Colorizer::underline([255, 0, 0])
+        ->echo("Hi, there!", PHP_EOL);
+    ```
+
+    See more: [Available Colors](#63-available-colors)
 
 - Returning colorized string:
 
@@ -223,22 +257,34 @@ composer require macocci7/bash-colorizer
 |`no-italic`|〇|〇|
 |`no-underline`|〇|〇|
 |`no-blink`|ー<br><a href="#note3">*3</a>|〇<br><a href="#note4">*4</a>|
+|`proportional-spacing`|ー|ー|
 |`no-reverse`|〇|〇|
 |`no-conceal`|〇|〇|
 |`no-strike`|〇|〇|
+|`no-proportional-spacing`|ー|ー|
+|`framed`|❌|❌|
+|`encircled`|❌|❌|
+|`overlined`|〇|〇|
+|`no-framed-no-encircled`|ー<br><a href="#note3">*3</a>|ー<br><a href="#note3">*3</a>|
+|`no-overlined`|〇|〇|
+|`underline-color`|〇|▲<br><a href="#note5">*5</a>|
 
 > <a id="note1"></a>
 *1: No effect with `faint`<br>
 > <a id="note2"></a>
 *2: Not `fast` (blinks at the same rate as `blink`)<br>
 > <a id="note3"></a>
-*3: Unknown because `blink` has no effect<br>
+*3: Unknown because the corresponding attribute has no effect<br>
 > <a id="note4"></a>
 *4: Also effective against `fast-blink`<br>
+> <a id="note5"></a>
+*5: Partially effective<br>
 
 e.g.) on VSCode Terminal
 
-<img src="arts/available_attributes.png" width="180" height="360" />
+<img src="arts/available_attributes.png" width="220" height="515" />
+
+See more: [Select Graphic Rendition parameters | ANSI escape code | Wikipedia](https://en.wikipedia.org/wiki/ANSI_escape_code#Select_Graphic_Rendition_parameters)
 
 ### 6.3. Available Colors
 
@@ -261,7 +307,7 @@ e.g.) on VSCode Terminal
     |---|---|
     |<img src="arts/available_foreground_colors.png" with="240" height="216" />|<img src="arts/available_background_colors.png" with="240" height="216" />|
 
-- 256 colors [ 0 - 255 ]:
+- 256 colors [ 0 - 255 ]: `foreground`/`background`/`underline`
 
     e.g.) foreground colors on VSCode Terminal:
 
@@ -270,6 +316,10 @@ e.g.) on VSCode Terminal
     e.g.) background colors on VSCode Terminal:
 
     <img src="arts/background_256colors.png" width="500" height="256" />
+
+    e.g.) underline colors on VSCode Terminal:
+
+    <img src="arts/underline_256colors.png" width="500" height="252" />
 
 - 24bit (16777216) colors:
 
@@ -280,6 +330,10 @@ e.g.) on VSCode Terminal
     e.g.) background colors on VSCode Terminal:
 
     <img src="arts/background_24bitcolors.png" width="500" height="406"/>
+
+    e.g.) underline colors on VSCode Terminal:
+
+    <img src="arts/underline_24bitcolors.png" width="500" height="410"/>
 
 ## 7. Examples
 
@@ -293,6 +347,8 @@ Example codes are in [playground](playground/) directory.
 - [foreground_24bitcolors.php](playground/foreground_24bitcolors.php)
 - [background_256colors.php](playground/background_256colors.php)
 - [background_24bitcolors.php](playground/background_24bitcolors.php)
+- [underline_256colors.php](playground/underline_256colors.php)
+- [underline_24bitcolors.php](playground/underline_24bitcolors.php)
 - [readable.php](playground/readable.php)
 
 ## 8. LICENSE

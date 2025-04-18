@@ -30,9 +30,16 @@ final class AttributeTest extends TestCase
             'attribute:NoItalic' => ['enum' => Attribute::NoItalic, 'expected' => 23],
             'attribute:NoUnderline' => ['enum' => Attribute::NoUnderline, 'expected' => 24],
             'attribute:NoBlink' => ['enum' => Attribute::NoBlink, 'expected' => 25],
+            'attribute:ProportionalSpacing' => ['enum' => Attribute::ProportionalSpacing, 'expected' => 26],
             'attribute:NoReverse' => ['enum' => Attribute::NoReverse, 'expected' => 27],
             'attribute:NoConceal' => ['enum' => Attribute::NoConceal, 'expected' => 28],
-            'attribute:NoStrike' => ['enum' => Attribute::NoStrike, 'expected' => 29],
+            'attribute:NoProportionalSpacing' => ['enum' => Attribute::NoProportionalSpacing, 'expected' => 50],
+            'attribute:Framed' => ['enum' => Attribute::Framed, 'expected' => 51],
+            'attribute:Encircled' => ['enum' => Attribute::Encircled, 'expected' => 52],
+            'attribute:Overlined' => ['enum' => Attribute::Overlined, 'expected' => 53],
+            'attribute:NoFramedNoEncircled' => ['enum' => Attribute::NoFramedNoEncircled, 'expected' => 54],
+            'attribute:NoOverlined' => ['enum' => Attribute::NoOverlined, 'expected' => 55],
+            'attribute:UnderlineColor' => ['enum' => Attribute::UnderlineColor, 'expected' => 58],
         ];
     }
 
@@ -61,9 +68,17 @@ final class AttributeTest extends TestCase
             'no-italic' => 23,
             'no-underline' => 24,
             'no-blink' => 25,
+            'proportional-spacing' => 26,
             'no-reverse' => 27,
             'no-conceal' => 28,
             'no-strike' => 29,
+            'no-proportional-spacing' => 50,
+            'framed' => 51,
+            'encircled' => 52,
+            'overlined' => 53,
+            'no-framed-no-encircled' => 54,
+            'no-overlined' => 55,
+            'underline-color' => 58,
         ];
         $this->assertSame($codes, Attribute::codes());
     }

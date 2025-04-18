@@ -2,6 +2,7 @@
 
 namespace Macocci7\BashColorizer;
 
+use Macocci7\BashColorizer\Converter;
 use Macocci7\BashColorizer\Enums\Attribute;
 use Macocci7\BashColorizer\Enums\Foreground;
 use Macocci7\BashColorizer\Enums\Background;
@@ -9,6 +10,8 @@ use Macocci7\BashColorizer\Filters\Filter;
 
 class Colorizer
 {
+    use Traits\ValidationTrait;
+
     protected const ESC = "\e";
 
     /**
@@ -25,6 +28,8 @@ class Colorizer
     }
 
     /**
+     * sets or returns attributes
+     *
      * @param   string[]|Attribute[]|null   $attributes = []
      * @return  string[]|null|self
      */
@@ -40,6 +45,8 @@ class Colorizer
     }
 
     /**
+     * sets or returns foreground color
+     *
      * @param   string|Foreground|int|int[]|null $foreground = null
      * @return  string|Foreground|int|int[]|null|self
      */
@@ -54,6 +61,8 @@ class Colorizer
     }
 
     /**
+     * sets or returns background color
+     *
      * @param   string|Background|int|int[]|null $background = null
      * @return  string|Background|int|int[]|null|self
      */
@@ -64,6 +73,22 @@ class Colorizer
             return self::$config['background'] ?? null;
         }
         static::$config['background'] = $background;
+        return new self(static::$config);
+    }
+
+    /**
+     * sets or returns underline color
+     *
+     * @param   string|int|int[]|null $underline = null
+     * @return  string|int|int[]|null|self
+     */
+    public static function underline(
+        string|int|array|null $underline = null
+    ): string|int|array|null|self {
+        if (is_null($underline)) {
+            return self::$config['underline'] ?? null;
+        }
+        static::$config['underline'] = $underline;
         return new self(static::$config);
     }
 
@@ -80,19 +105,34 @@ class Colorizer
         return new self($config);
     }
 
+    public static function hasAttribute(string|Attribute $attribute): bool
+    {
+        $attributes = static::attributes();
+        if (empty($attributes)) {
+            return false;
+        }
+        if (is_string($attribute)) {
+            return is_null(Attribute::tryFrom($attribute))
+                ? false
+                : in_array($attribute, $attributes)
+                    || in_array(Attribute::from($attribute), $attributes);
+        }
+        return in_array($attribute->value, $attributes)
+            || in_array($attribute, $attributes);
+    }
+
     /**
-     * @param   array<string, mixed>    $config = []
      * @return  int[]
      */
-    protected static function getAttributeCodes(array $config = []): array
+    protected static function getAttributeCodes(): array
     {
-        if (!isset($config['attributes'])) {
+        if (!isset(static::$config['attributes'])) {
             return [];
         }
 
         $codes = [];
 
-        foreach ($config['attributes'] as $attribute) {
+        foreach (static::$config['attributes'] as $attribute) {
             if (is_string($attribute)) {
                 $codes[] = Attribute::tryFrom($attribute)?->code();
             } elseif ($attribute instanceof Attribute) {
@@ -100,20 +140,19 @@ class Colorizer
             }
         }
 
-        return $codes;
+        return array_unique($codes);
     }
 
     /**
-     * @param   array<string, mixed>    $config = []
      * @return  int[]
      */
-    protected static function getForegroundCode(array $config = []): array
+    protected static function getForegroundCode(): array
     {
-        if (!isset($config['foreground'])) {
+        if (!isset(static::$config['foreground'])) {
             return [];
         }
 
-        $foreground = $config['foreground'];
+        $foreground = static::$config['foreground'];
 
         if (is_int($foreground) || is_array($foreground)) {
             return static::extendedCodes(Foreground::Extended, $foreground);
@@ -121,6 +160,13 @@ class Colorizer
 
         $code = null;
         if (is_string($foreground)) {
+            if (static::isHex($foreground)) {
+                return [
+                    Foreground::Extended->code(),
+                    2,
+                    ...Converter::decimal($foreground),
+                ];
+            }
             $code = Foreground::tryFrom($foreground)?->code();
         } elseif ($foreground instanceof Foreground) {
             $code = $foreground->code();
@@ -130,16 +176,15 @@ class Colorizer
     }
 
     /**
-     * @param   array<string, mixed>    $config = []
      * @return  int[]
      */
-    protected static function getBackgroundCode(array $config = []): array
+    protected static function getBackgroundCode(): array
     {
-        if (!isset($config['background'])) {
+        if (!isset(static::$config['background'])) {
             return [];
         }
 
-        $background = $config['background'];
+        $background = static::$config['background'];
 
         if (is_int($background) || is_array($background)) {
             return static::extendedCodes(Background::Extended, $background);
@@ -148,12 +193,65 @@ class Colorizer
         $code = null;
 
         if (is_string($background)) {
+            if (static::isHex($background)) {
+                return [
+                    Background::Extended->code(),
+                    2,
+                    ...Converter::decimal($background),
+                ];
+            }
             $code = Background::tryFrom($background)?->code();
         } elseif ($background instanceof Background) {
             $code = $background->code();
         }
 
         return strlen($code ?? '') ? [$code] : [];
+    }
+
+    /**
+     * @return  int[]
+     */
+    protected static function getUnderlineCode(): array
+    {
+        if (!isset(static::$config['underline'])) {
+            return [];
+        }
+
+        $underline = static::$config['underline'];
+
+        $attributeUnderline = static::hasAttribute('underline')
+            ? []
+            : [Attribute::Underline->code()];
+        if (is_int($underline)) {
+            return [
+                ...$attributeUnderline,
+                Attribute::UnderlineColor->code(),
+                5,
+                Filter::number($underline),
+            ];
+        }
+
+        if (is_array($underline)) {
+            return [
+                ...$attributeUnderline,
+                Attribute::UnderlineColor->code(),
+                2,
+                ...Filter::rgb($underline),
+            ];
+        }
+
+        if (is_string($underline)) {
+            if (static::isHex($underline)) {
+                return [
+                    ...$attributeUnderline,
+                    Attribute::UnderlineColor->code(),
+                    2,
+                    ...Converter::decimal($underline),
+                ];
+            }
+        }
+
+        return [];
     }
 
     /**
@@ -182,21 +280,19 @@ class Colorizer
         ];
     }
 
-    /**
-     * @param   array<string, mixed>    $config = []
-     */
-    public static function codes(array $config = []): string
+    public static function codes(): string
     {
         return implode(';', array_merge(
-            self::getAttributeCodes($config),
-            self::getForegroundCode($config),
-            self::getBackgroundCode($config),
+            self::getAttributeCodes(),
+            self::getForegroundCode(),
+            self::getBackgroundCode(),
+            self::getUnderlineCode(),
         ));
     }
 
     public static function encode(string $string, string $eol = ''): string
     {
-        $codes = static::codes(static::$config);
+        $codes = static::codes();
         return empty($codes) ? $string : sprintf(
             '%s[%sm%s%s[m%s',
             static::ESC,
