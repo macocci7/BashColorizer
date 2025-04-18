@@ -46,6 +46,15 @@ final class ColorizerTest extends TestCase
                     'attributes' => ["bold", "italic"],
                     'forground' => "yellow",
                     'background' => "blue",
+                    'underline' => "#ff9900",
+                ],
+            ],
+            'case 8' => [
+                'config' => [
+                    'attributes' => ["bold", "italic"],
+                    'forground' => "yellow",
+                    'background' => "blue",
+                    'underline' => "#ff9900",
                     'unnecessary' => "hello",
                 ],
             ],
@@ -114,6 +123,101 @@ final class ColorizerTest extends TestCase
         Colorizer::background($background);
         $this->assertSame($background, Colorizer::background());
         $this->assertSame($background, Colorizer::config()['background']);
+    }
+
+    public static function provide_underline_can_set_underline_color_correctly(): array
+    {
+        return [
+            '""' => ['underline' => ""],
+            '"#ff9900"' => ['underline' => "#ff9900"],
+            '128' => ['underline' => 128],
+            '[0, 128, 255]' => ['underline' => [0, 128, 255]],
+        ];
+    }
+
+    #[DataProvider('provide_underline_can_set_underline_color_correctly')]
+    public function test_underline_can_set_underline_color_correctly(string|int|array $underline): void
+    {
+        Colorizer::underline($underline);
+        $this->assertSame($underline, Colorizer::underline());
+        $this->assertSame($underline, Colorizer::config()['underline']);
+    }
+
+    public static function provide_hasAttribute_can_return_correct_bool(): array
+    {
+        return [
+            'case 1' => [
+                'attributes' => null,
+                'attribute' => 'bold',
+                'expected' => false,
+            ],
+            'case 2' => [
+                'attributes' => [],
+                'attribute' => '',
+                'expected' => false,
+            ],
+            'case 3' => [
+                'attributes' => [],
+                'attribute' => 'bold',
+                'expected' => false,
+            ],
+            'case 4' => [
+                'attributes' => ['italic'],
+                'attribute' => 'bold',
+                'expected' => false,
+            ],
+            'case 5' => [
+                'attributes' => ['bold'],
+                'attribute' => 'bold',
+                'expected' => true,
+            ],
+            'case 6' => [
+                'attributes' => ['bold'],
+                'attribute' => Attribute::Bold,
+                'expected' => true,
+            ],
+            'case 7' => [
+                'attributes' => [Attribute::Bold],
+                'attribute' => Attribute::Bold,
+                'expected' => true,
+            ],
+            'case 8' => [
+                'attributes' => [Attribute::Bold],
+                'attribute' => 'bold',
+                'expected' => true,
+            ],
+            'case 9' => [
+                'attributes' => ['italic', 'bold'],
+                'attribute' => 'bold',
+                'expected' => true,
+            ],
+            'case 10' => [
+                'attributes' => ['italic', Attribute::Bold],
+                'attribute' => 'bold',
+                'expected' => true,
+            ],
+            'case 11' => [
+                'attributes' => ['italic', 'bold'],
+                'attribute' => Attribute::Bold,
+                'expected' => true,
+            ],
+            'case 12' => [
+                'attributes' => ['italic', Attribute::Bold],
+                'attribute' => Attribute::Bold,
+                'expected' => true,
+            ],
+        ];
+    }
+
+    #[DataProvider('provide_hasAttribute_can_return_correct_bool')]
+    public function test_hasAttribute_can_return_correct_bool(array|null $attributes, string|Attribute $attribute, bool $expected): void
+    {
+        if (is_null($attributes)) {
+            Colorizer::config([]);
+        } else {
+            Colorizer::attributes($attributes);
+        }
+        $this->assertSame($expected, Colorizer::hasAttribute($attribute));
     }
 
     public static function provide_codes_can_return_codes_correctly(): array
@@ -302,6 +406,12 @@ final class ColorizerTest extends TestCase
                 ],
                 'expected' => '33',
             ],
+            '#ff9900 as foreground' => [
+                'config' => [
+                    'foreground' => '#ff9900',
+                ],
+                'expected' => '38;2;255;153;0',
+            ],
             'Yellow as foreground' => [
                 'config' => [
                     'foreground' => Foreground::Yellow,
@@ -442,6 +552,12 @@ final class ColorizerTest extends TestCase
                 ],
                 'expected' => '42',
             ],
+            '#0099ff as background' => [
+                'config' => [
+                    'background' => '#0099ff',
+                ],
+                'expected' => '48;2;0;153;255',
+            ],
             'Green as background' => [
                 'config' => [
                     'background' => Background::Green,
@@ -515,94 +631,275 @@ final class ColorizerTest extends TestCase
                 'expected' => '48;2;64;128;192',
             ],
 
+            // cases for underline
+            'empty as underline' => [
+                'config' => [
+                    'underline' => '',
+                ],
+                'expected' => '',
+            ],
+            'null as underline' => [
+                'config' => [
+                    'underline' => null,
+                ],
+                'expected' => '',
+            ],
+            'invalid as underline' => [
+                'config' => [
+                    'underline' => 'invalid',
+                ],
+                'expected' => '',
+            ],
+            'true as underline' => [
+                'config' => [
+                    'underline' => true,
+                ],
+                'expected' => '',
+            ],
+            'false as underline' => [
+                'config' => [
+                    'underline' => false,
+                ],
+                'expected' => '',
+            ],
+            'float as underline' => [
+                'config' => [
+                    'underline' => 1.5,
+                ],
+                'expected' => '',
+            ],
+            'object as underline' => [
+                'config' => [
+                    'underline' => new \stdClass(),
+                ],
+                'expected' => '',
+            ],
+            'closure as underline' => [
+                'config' => [
+                    'underline' => fn () => "magenta",
+                ],
+                'expected' => '',
+            ],
+            'Attribute enum as underline' => [
+                'config' => [
+                    'underline' => Attribute::Italic,
+                ],
+                'expected' => '',
+            ],
+            'Foregound enum as underline' => [
+                'config' => [
+                    'underline' => Foreground::Cyan,
+                ],
+                'expected' => '',
+            ],
+            'Background enum as underline' => [
+                'config' => [
+                    'underline' => Background::Cyan,
+                ],
+                'expected' => '',
+            ],
+            'green as underline' => [
+                'config' => [
+                    'underline' => 'green',
+                ],
+                'expected' => '',
+            ],
+            '#f90 as underline' => [
+                'config' => [
+                    'underline' => '#0099ff',
+                ],
+                'expected' => '4;58;2;0;153;255',
+            ],
+            '#0099ff as underline' => [
+                'config' => [
+                    'underline' => '#0099ff',
+                ],
+                'expected' => '4;58;2;0;153;255',
+            ],
+            'int -1 as underline' => [
+                'config' => [
+                    'underline' => -1,
+                ],
+                'expected' => '4;58;5;0',
+            ],
+            'int 0 as underline' => [
+                'config' => [
+                    'underline' => 0,
+                ],
+                'expected' => '4;58;5;0',
+            ],
+            'int 1 as underline' => [
+                'config' => [
+                    'underline' => 1,
+                ],
+                'expected' => '4;58;5;1',
+            ],
+            'int 254 as underline' => [
+                'config' => [
+                    'underline' => 254,
+                ],
+                'expected' => '4;58;5;254',
+            ],
+            'int 255 as underline' => [
+                'config' => [
+                    'underline' => 255,
+                ],
+                'expected' => '4;58;5;255',
+            ],
+            'int 256 as underline' => [
+                'config' => [
+                    'underline' => 256,
+                ],
+                'expected' => '4;58;5;255',
+            ],
+            '[null] as underline' => [
+                'config' => [
+                    'underline' => [null],
+                ],
+                'expected' => '4;58;2;0;0;0',
+            ],
+            '[64] as underline' => [
+                'config' => [
+                    'underline' => [64],
+                ],
+                'expected' => '4;58;2;64;0;0',
+            ],
+            '[64, 128] as underline' => [
+                'config' => [
+                    'underline' => [64, 128],
+                ],
+                'expected' => '4;58;2;64;128;0',
+            ],
+            '[64, 128, 192] as underline' => [
+                'config' => [
+                    'underline' => [64, 128, 192],
+                ],
+                'expected' => '4;58;2;64;128;192',
+            ],
+            '[64, 128, 192, 255] as underline' => [
+                'config' => [
+                    'underline' => [64, 128, 192, 255],
+                ],
+                'expected' => '4;58;2;64;128;192',
+            ],
+
             // combinations
-            'empty attributes, foreground and background' => [
+            'empty attributes, foreground, background and underline' => [
                 'config' => [
                     'attributes' => [],
                     'foreground' => '',
                     'background' => '',
+                    'underline' => '',
                 ],
                 'expected' => '',
             ],
-            'empty as attributes, empty foreground and background' => [
+            'empty as attributes, empty foreground, background and underline' => [
                 'config' => [
                     'attributes' => [''],
                     'foreground' => '',
                     'background' => '',
+                    'underline' => '',
                 ],
                 'expected' => '',
             ],
-            'null as attributes, empty foreground and background' => [
+            'null as attributes, empty foreground, background and underline' => [
                 'config' => [
                     'attributes' => [null],
                     'foreground' => '',
                     'background' => '',
+                    'underline' => '',
                 ],
                 'expected' => '',
             ],
-            'null as attributes, foreground and background' => [
+            'null as attributes, foreground, background and underline' => [
                 'config' => [
                     'attributes' => [null],
                     'foreground' => null,
                     'background' => null,
+                    'underline' => null,
                 ],
                 'expected' => '',
             ],
-            'invalid as attributes, empty foreground and background' => [
+            'invalid as attributes, empty foreground, background and underline' => [
                 'config' => [
                     'attributes' => ['invalid'],
                     'foreground' => '',
                     'background' => '',
+                    'underline' => '',
                 ],
                 'expected' => '',
             ],
-            'invalid as attributes, foreground and background' => [
+            'invalid as attributes, foreground, background and underline' => [
                 'config' => [
                     'attributes' => ['invalid'],
                     'foreground' => 'invalid',
                     'background' => 'invalid',
+                    'underline' => 'invalid',
                 ],
                 'expected' => '',
             ],
-            'bold, empty foreground and background' => [
+            'bold, empty foreground, background and underline' => [
                 'config' => [
                     'attributes' => ['bold'],
                     'foreground' => '',
                     'background' => '',
+                    'underline' => '',
                 ],
                 'expected' => '1',
             ],
-            'bold, red foreground and empty background' => [
+            'bold, red foreground, empty background and underline' => [
                 'config' => [
                     'attributes' => ['bold'],
                     'foreground' => 'red',
                     'background' => '',
+                    'underline' => '',
                 ],
                 'expected' => '1;31',
             ],
-            'bold, red foreground and yellow background' => [
+            'bold, red foreground, yellow background and empty underline' => [
                 'config' => [
                     'attributes' => ['bold'],
                     'foreground' => 'red',
                     'background' => 'yellow',
+                    'underline' => '',
                 ],
                 'expected' => '1;31;43',
             ],
-            'bold, empty foreground and yellow background' => [
+            'bold, red foreground, yellow background and #0099ff underline' => [
+                'config' => [
+                    'attributes' => ['bold'],
+                    'foreground' => 'red',
+                    'background' => 'yellow',
+                    'underline' => '#0099ff',
+                ],
+                'expected' => '1;31;43;4;58;2;0;153;255',
+            ],
+            'bold, empty foreground, yellow background and #0099ff underline' => [
                 'config' => [
                     'attributes' => ['bold'],
                     'foreground' => '',
                     'background' => 'yellow',
+                    'underline' => '#0099ff',
                 ],
-                'expected' => '1;43',
+                'expected' => '1;43;4;58;2;0;153;255',
             ],
-            'bold, italic, red foreground and yellow background' => [
+            'bold, italic, red foreground, yellow background and #0099ff underline' => [
                 'config' => [
                     'attributes' => ['bold', 'italic'],
                     'foreground' => 'red',
                     'background' => 'yellow',
+                    'underline' => '#0099ff',
                 ],
-                'expected' => '1;3;31;43',
+                'expected' => '1;3;31;43;4;58;2;0;153;255',
+            ],
+            'bold, underline, italic, red foreground, yellow background and #0099ff underline' => [
+                'config' => [
+                    'attributes' => ['bold', 'underline', 'italic'],
+                    'foreground' => 'red',
+                    'background' => 'yellow',
+                    'underline' => '#0099ff',
+                ],
+                'expected' => '1;4;3;31;43;58;2;0;153;255',
             ],
         ];
     }
@@ -610,7 +907,7 @@ final class ColorizerTest extends TestCase
     #[DataProvider('provide_codes_can_return_codes_correctly')]
     public function test_codes_can_return_codes_correctly(array $config, string $expected): void
     {
-        $this->assertSame($expected, Colorizer::codes($config));
+        $this->assertSame($expected, Colorizer::config($config)->codes());
     }
 
     public static function provide_encode_can_return_encoded_value_correctly(): array
@@ -642,6 +939,13 @@ final class ColorizerTest extends TestCase
                 'message' => 'Hi, there!',
                 'expected' => "\e[31mHi, there!\e[m",
             ],
+            'foreground:#ff9900' => [
+                'config' => [
+                    'foreground' => "#ff9900",
+                ],
+                'message' => 'Hi, there!',
+                'expected' => "\e[38;2;255;153;0mHi, there!\e[m",
+            ],
             'foreground:128' => [
                 'config' => [
                     'foreground' => 128,
@@ -662,6 +966,13 @@ final class ColorizerTest extends TestCase
                 ],
                 'message' => 'Hi, there!',
                 'expected' => "\e[41mHi, there!\e[m",
+            ],
+            'background:#0099ff' => [
+                'config' => [
+                    'background' => "#0099ff",
+                ],
+                'message' => 'Hi, there!',
+                'expected' => "\e[48;2;0;153;255mHi, there!\e[m",
             ],
             'background:128' => [
                 'config' => [
@@ -709,6 +1020,49 @@ final class ColorizerTest extends TestCase
         $this->assertSame($expected, Colorizer::config($config)->encode($message));
     }
 
+    public static function provide_echo_can_output_strings_correctly(): array
+    {
+        return [
+            'empty' => [
+                'config' => [],
+                'string' => '',
+                'expected' => '',
+            ],
+            'empty config' => [
+                'config' => [],
+                'string' => 'Hello',
+                'expected' => 'Hello',
+            ],
+            'invalid config' => [
+                'config' => ['bold'],
+                'string' => 'Hello',
+                'expected' => 'Hello',
+            ],
+            'bold' => [
+                'config' => ['attributes' => ['bold']],
+                'string' => 'Hello',
+                'expected' => "\e[1mHello\e[m",
+            ],
+            'bold and italic' => [
+                'config' => ['attributes' => ['bold', 'italic']],
+                'string' => 'Hello',
+                'expected' => "\e[1;3mHello\e[m",
+            ],
+            'bold, italic and foreground red' => [
+                'config' => ['attributes' => ['bold', 'italic'], 'foreground' => 'red'],
+                'string' => 'Hello',
+                'expected' => "\e[1;3;31mHello\e[m",
+            ],
+        ];
+    }
+
+    #[DataProvider('provide_echo_can_output_strings_correctly')]
+    public function test_echo_can_output_strings_correctly(array $config, string $string, string $expected): void
+    {
+        $this->expectOutputString($expected);
+        Colorizer::config($config)->echo($string);
+    }
+
     public static function provide_readable_can_return_readable_value_correctly(): array
     {
         return [
@@ -738,6 +1092,13 @@ final class ColorizerTest extends TestCase
                 'message' => 'Hi, there!',
                 'expected' => "\\033[31mHi, there!\\033[m",
             ],
+            'foreground:#0099ff' => [
+                'config' => [
+                    'foreground' => "#0099ff",
+                ],
+                'message' => 'Hi, there!',
+                'expected' => "\\033[38;2;0;153;255mHi, there!\\033[m",
+            ],
             'foreground:128' => [
                 'config' => [
                     'foreground' => 128,
@@ -758,6 +1119,13 @@ final class ColorizerTest extends TestCase
                 ],
                 'message' => 'Hi, there!',
                 'expected' => "\\033[41mHi, there!\\033[m",
+            ],
+            'background:#ff9900' => [
+                'config' => [
+                    'background' => "#ff9900",
+                ],
+                'message' => 'Hi, there!',
+                'expected' => "\\033[48;2;255;153;0mHi, there!\\033[m",
             ],
             'background:128' => [
                 'config' => [

@@ -7,6 +7,7 @@ use Macocci7\BashColorizer\Colorizer;
 $greeting = "Let's make your bash terminal full of colors!";
 
 Colorizer::attributes(["bold"])
+    ->echo(PHP_EOL)
     ->foreground("red")->echo("        B ")
     ->foreground("yellow")->echo("A ")
     ->foreground("white")->echo("S ")
@@ -19,7 +20,8 @@ Colorizer::attributes(["bold"])
     ->foreground("yellow")->echo("I ")
     ->foreground("white")->echo("Z ")
     ->foreground("green")->echo("E ")
-    ->foreground("cyan")->echo("R", "\n\n")
+    ->foreground("cyan")->echo("R", PHP_EOL)
+    ->echo(PHP_EOL)
     ;
 Colorizer::attributes(["reset"])
     ->foreground("white")->background("black")->echo($greeting, PHP_EOL)
@@ -30,4 +32,5 @@ Colorizer::attributes(["reset"])
     ->foreground("green")->background("cyan")->echo($greeting, PHP_EOL)
     ->foreground("green")->background("blue")->echo($greeting, PHP_EOL)
     ->foreground("green")->background("magenta")->echo($greeting, PHP_EOL)
+    ->echo('', PHP_EOL)
     ;
