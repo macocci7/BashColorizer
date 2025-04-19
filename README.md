@@ -280,7 +280,7 @@ composer require macocci7/bash-colorizer
 > <a id="note5"></a>
 *5: Partially effective<br>
 
-e.g.) on VSCode Terminal
+e.g.) on VSCode Terminal (theme:`Dark Modern`)
 
 <img src="arts/available_attributes.png" width="220" height="515" />
 
@@ -302,36 +302,36 @@ See more: [Select Graphic Rendition parameters | ANSI escape code | Wikipedia](h
     - `default`
 
 
-    e.g.) on VSCode Terminal
+    e.g.) on VSCode Terminal (theme:`Dark Modern`)
     |Foregound Colors|Background Colors|
     |---|---|
     |<img src="arts/available_foreground_colors.png" with="240" height="216" />|<img src="arts/available_background_colors.png" with="240" height="216" />|
 
 - 256 colors [ 0 - 255 ]: `foreground`/`background`/`underline`
 
-    e.g.) foreground colors on VSCode Terminal:
+    e.g.) foreground colors on VSCode Terminal (theme:`Dark Modern`):
 
     <img src="arts/foreground_256colors.png" width="500" height="254" />
 
-    e.g.) background colors on VSCode Terminal:
+    e.g.) background colors on VSCode Terminal (theme:`Dark Modern`):
 
     <img src="arts/background_256colors.png" width="500" height="256" />
 
-    e.g.) underline colors on VSCode Terminal:
+    e.g.) underline colors on VSCode Terminal (theme:`Dark Modern`):
 
     <img src="arts/underline_256colors.png" width="500" height="252" />
 
 - 24bit (16777216) colors:
 
-    e.g.) foreground colors on VSCode Terminal:
+    e.g.) foreground colors on VSCode Terminal (theme:`Dark Modern`):
 
     <img src="arts/foreground_24bitcolors.png" width="500" height="412" />
 
-    e.g.) background colors on VSCode Terminal:
+    e.g.) background colors on VSCode Terminal (theme:`Dark Modern`):
 
     <img src="arts/background_24bitcolors.png" width="500" height="406"/>
 
-    e.g.) underline colors on VSCode Terminal:
+    e.g.) underline colors on VSCode Terminal (theme:`Dark Modern`):
 
     <img src="arts/underline_24bitcolors.png" width="500" height="410"/>
 
@@ -350,6 +350,7 @@ Example codes are in [playground](playground/) directory.
 - [underline_256colors.php](playground/underline_256colors.php)
 - [underline_24bitcolors.php](playground/underline_24bitcolors.php)
 - [readable.php](playground/readable.php)
+- [converter.php](playground/converter.php)
 
 ## 8. LICENSE
 
