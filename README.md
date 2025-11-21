@@ -4,9 +4,18 @@
 
 ## 1. Features
 
-`Bash Colorizer` outputs strings in specified colors and attributes.
+`Bash Colorizer` outputs strings to the bash terminal with specified colors and attributes.
 
 Let's make your `bash` terminal full of colors!
+
+```php
+use Macocci7\BashColorizer\Colorizer;
+
+Colorizer::attributes(['italic'])
+        ->foreground('#ffff00')
+        ->background('#0000ff')
+        ->echo('Hi, there!', PHP_EOL);
+```
 
 ## 2. Contents
 
@@ -31,7 +40,7 @@ Let's make your `bash` terminal full of colors!
 
 - PHP 8.1 or later installed
 - Composer v2 installed
-- Bash v5 installed
+- Bash v5 installed (or Zsh)
 
 ## 5. Installation
 
