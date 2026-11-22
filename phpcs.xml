@@ -2,7 +2,7 @@
 <ruleset name="BashColorizer">
     <description>The coding standard for Bash Colorizer.</description>
 
-    <config name="php_version" value="81000"/>
+    <config name="php_version" value="83000"/>
 
     <rule ref="PSR12">
     </rule>

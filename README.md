@@ -38,9 +38,11 @@ Colorizer::attributes(['italic'])
 
 ## 4. Requirements
 
-- PHP 8.1 or later installed
-- Composer v2 installed
-- Bash v5 installed (or Zsh)
+- PHP 8.3 or later installed
+- [Composer](https://getcomposer.org/) v2 installed
+- An ANSI-capable terminal (e.g., Bash, Zsh, Windows Terminal, Windows Command Prompt, or VS Code integrated terminal)
+
+> Note: Bash v5 or Zsh is not strictly required to run this library, though some examples or workflows may assume a Unix-like shell. Rendering of specific attributes (such as underline colors or 24-bit colors) depends on your terminal emulator.
 
 ## 5. Installation
 
@@ -364,5 +366,3 @@ Example codes are in [playground](playground/) directory.
 ## 8. LICENSE
 
 [MIT](LICENSE)
-
-Copyright 2025 macocci7.
