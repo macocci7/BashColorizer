@@ -2,7 +2,7 @@
 
 # Script to Test and Lint
 # requirement:
-# - https://github.com/jdx/mise installed
+# - phpenv installed
 # - PHP versions defined in ../PHP_VERSIONS installed
 
 CMD=phpenv
